@@ -20,6 +20,13 @@ function isSignificantKnowledge(content: string): boolean {
 		return false;
 	}
 
+	// Allow bypassing the significance filter via environment variable
+	// This enables non-coding knowledge (organizational, architectural, business)
+	// to be stored without being filtered by the code-focused heuristics
+	if (process.env.CIPHER_SIGNIFICANCE_FILTER === 'disabled') {
+		return true;
+	}
+
 	const text = content.toLowerCase().trim();
 
 	// Skip trivial tool results and non-technical content
